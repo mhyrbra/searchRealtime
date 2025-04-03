@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
+import { isOddFn } from './store/IsOdd';
 
 function App() {
   const [showMessage, setShowMessage] = useState(false);
   const [isOdd, setIsOdd] = useState(null);
   const [num, setNum] = useState('');
   const [loading, setLoading] = useState(false);
-
-  function isOddNumber(num) {
-    return num % 2 !== 0;
-  }
 
   useEffect(() => {
     if (num === '') {
@@ -18,8 +15,10 @@ function App() {
     }
 
     setLoading(true);
-    const handler = setTimeout(() => {
-      setIsOdd(isOddNumber(Number(num)));
+    const handler = setTimeout(async () => {
+      const oddFnResult = await isOddFn(Number(num));
+
+      setIsOdd(oddFnResult);
       setShowMessage(true);
       setLoading(false);
     }, 1500);
